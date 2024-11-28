@@ -34,7 +34,7 @@ setup(
     license="MIT license",
     long_description=readme,
     include_package_data=True,
-    keywords=['seatools', 'ioc', 'starter'],
+    keywords=['seatools', 'ioc', 'starter', 'django'],
     name='seatools-starter-django',
     packages=find_packages(include=['seatools.ioc.starters', 'seatools.ioc.starters.*']),
     test_suite='tests',
