@@ -6,10 +6,16 @@ from loguru import logger
 
 @Bean
 def init_django():
-    if 'package_name' not in cfg():
-        logger.warning('配置不存在[package_name]属性, 无法自动初始化数django')
+    config = cfg()
+    settings = None
+    if 'seatools' in config and 'django' in config['seatools'] and 'settings' in config['seatools']['django']:
+        settings = config['seatools']['django']['settings']
+    # 兼容旧参数
+    elif 'package_name' in config:
+        settings = f'{config["package_name"]}.django.settings'
+    if not settings:
+        logger.warning('配置属性[seatools.django.settings]不存在, 无法自动初始化数django')
         return
-    package_name = cfg()['package_name']
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', f'{package_name}.django.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings)
     import django
     django.setup()
